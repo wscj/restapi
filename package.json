@@ -1,0 +1,24 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "用Express.js实现RESTful API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "supervisor --inspect index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wscj/restapi.git"
+  },
+  "author": "ChenJing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wscj/restapi/issues"
+  },
+  "homepage": "https://github.com/wscj/restapi#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3"
+  }
+}
