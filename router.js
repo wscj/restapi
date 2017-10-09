@@ -1,16 +1,19 @@
 const router = require('express').Router()
+const model = require('./model')
 
 ////////////////////////////////////////////////////
 /// 资源：书
 ////////////////////////////////////////////////////
  
 router.get('/api/books', (req, res) => {  //获取全部书本信息
-	console.log(req)
-	res.send({ msg: 'Get all books' })
+	model.getAll('books', function(arg) {
+		res.send(arg)
+	})
 })
 .get('/api/books/:id', (req, res) => {    //获取单一本书信息
-	console.log(req)
-	res.send({ msg: 'Get one book' })
+	model.getOne('books', req.params.id, function(arg) {
+		res.send(arg)
+	})
 })
 .post('/api/books', (req, res) => {       //创建一本书
 	console.log(req)
