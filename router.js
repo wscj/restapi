@@ -16,8 +16,9 @@ router.get('/api/books', (req, res) => {  //获取全部书本信息
 	})
 })
 .post('/api/books', (req, res) => {       //创建一本书
-	console.log(req)
-	res.send({ msg: 'Create a book' })
+	model.create('books', req.body, function(arg) {
+		res.send(arg)
+	})
 })
 .put('/api/books/:id', (req, res) => {    //修改一本书，参数需要提供全部字段
 	console.log(req)

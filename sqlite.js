@@ -67,25 +67,38 @@ if (!isDbExists) {
 
 Sqlite.getAll = function(table, callback) {
 
-	db.all(`select rowid, * from ${table}`, (err, rows) => {
-		if (err) {
-			console.error(err)
-		} else {
-			callback({ error: 0, list: rows })
-		}
+	const sql = `select rowid, * from ${table}`
+	db.all(sql, (err, rows) => {
+		err ? console.error(err) : callback({ error: 0, list: rows })
 	})
 
 }
 
 Sqlite.getOne = function(table, id, callback) {
 
-	db.get(`select rowid, * from ${table} where rowid=${id}`, (err, row) => {
-		if (err) {
-			console.error(err)
-		} else {
-			callback({ error: 0, list: [row] })
-		}
+	const sql = `select rowid, * from ${table} where rowid=${id}`
+	db.get(sql, (err, row) => {
+		err ? console.error(err) : callback({ error: 0, list: [row] })
 	})
+
+}
+
+Sqlite.create = function(table, fields, callback) {
+
+	let sql1 = `insert into ${table} (`
+	let sql2 = `) values (`
+
+	Object.keys(fields).forEach(function(key) {
+		sql1 += (key + ',')
+		sql2 += `'${fields[key]}',`
+	})
+
+	const sql = sql1.substr(0, sql1.length - 1) + sql2.substr(0, sql2.length - 1) + ')'
+
+	db.run(sql, function(err) {
+		err ? console.error(err) : Sqlite.getOne(table, this.lastID, callback)
+	})
+
 }
 
 module.exports = Sqlite
