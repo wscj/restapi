@@ -20,14 +20,15 @@ router.get('/api/books', (req, res) => {  //获取全部书本信息
 		res.send(arg)
 	})
 })
-.put('/api/books/:id', (req, res) => {    //修改一本书，参数需要提供全部字段
+.put('/api/books/:id', (req, res) => {    //修改一本书，理论上需要提供全部字段，但本项目PUT的实现与PATCH一致，只需提供修改的字段
 	model.update('books', req.params.id, req.body, (arg) => {
 		res.send(arg)
 	})
 })
 .patch('/api/books/:id', (req, res) => {  //修改一本书，仅需提供修改字段
-	console.log(req)
-	res.send({ msg: 'Update a book with some fields which going to change' })
+	model.update('books', req.params.id, req.body, (arg) => {
+		res.send(arg)
+	})
 })
 .delete('/api/books/:id', (req, res) => { //删除一本书
 	console.log(req)
