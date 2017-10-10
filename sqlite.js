@@ -65,7 +65,7 @@ if (!isDbExists) {
 		}(sqls));
 	}
 
-Sqlite.getAll = function(table, callback) {
+Sqlite.getAll = (table, callback) => {
 
 	const sql = `select rowid, * from ${table}`
 	db.all(sql, (err, rows) => {
@@ -74,7 +74,7 @@ Sqlite.getAll = function(table, callback) {
 
 }
 
-Sqlite.getOne = function(table, id, callback) {
+Sqlite.getOne = (table, id, callback) => {
 
 	const sql = `select rowid, * from ${table} where rowid=${id}`
 	db.get(sql, (err, row) => {
@@ -83,7 +83,7 @@ Sqlite.getOne = function(table, id, callback) {
 
 }
 
-Sqlite.create = function(table, fields, callback) {
+Sqlite.create = (table, fields, callback) => {
 
 	let sql1 = `insert into ${table} (`
 	let sql2 = `) values (`
@@ -101,7 +101,7 @@ Sqlite.create = function(table, fields, callback) {
 
 }
 
-Sqlite.update = function(table, id, fields, callback) {
+Sqlite.update = (table, id, fields, callback) => {
 	let sql = `update ${table} set `
 	Object.keys(fields).forEach((key) => {
 		sql += `${key}='${fields[key]}',`
