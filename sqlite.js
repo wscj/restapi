@@ -40,6 +40,15 @@ if (!isDbExists) {
 			content Text
 		)
 	`);
+
+	sqls.push(`
+		Create Trigger tr_delete_books
+    Before Delete On books
+    For Each Row
+    Begin
+        Delete From articles Where pid = old.rowid;
+    End
+	`);
 	
 	sqls.push(`
 		insert into books (name, category)
@@ -53,17 +62,17 @@ if (!isDbExists) {
 		union select 1, '寻隐者不遇', '贾岛', '松下问童子，\n 言师采药去。\n 只在此山中，\n 云深不知处。'
 	`);
 
-		(function exec(sqls) {
-			if (sqls.length) {
-				db.run(sqls.shift(), (err) => {
-					err ? console.error(err): exec(sqls);
-				});
-			}
-			else {
-				Sqlite.isInited = true;
-			}
-		}(sqls));
-	}
+	(function exec(sqls) {
+		if (sqls.length) {
+			db.run(sqls.shift(), (err) => {
+				err ? console.error(err): exec(sqls);
+			});
+		}
+		else {
+			Sqlite.isInited = true;
+		}
+	}(sqls));
+}
 
 Sqlite.getAll = (table, callback) => {
 
@@ -102,6 +111,7 @@ Sqlite.create = (table, fields, callback) => {
 }
 
 Sqlite.update = (table, id, fields, callback) => {
+
 	let sql = `update ${table} set `
 	Object.keys(fields).forEach((key) => {
 		sql += `${key}='${fields[key]}',`
@@ -110,9 +120,11 @@ Sqlite.update = (table, id, fields, callback) => {
 	db.run(sql, (err) => {
 		err ? console.error(err) : Sqlite.getOne(table, id, callback)
 	})
+
 }
 
 Sqlite.delete = (table, id, callback) => {
+
 	const sql = `delete from ${table} where rowid=${id}`
 	db.run(sql, function(err) {
 		if (err) {
@@ -125,6 +137,7 @@ Sqlite.delete = (table, id, callback) => {
 			callback({ error: 0 })
 		}
 	})
+
 }
 
 module.exports = Sqlite
