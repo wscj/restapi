@@ -36,4 +36,39 @@ router.get('/api/books', (req, res) => {  //获取全部书本信息
 	})
 })
 
+////////////////////////////////////////////////////
+/// 资源：文章
+////////////////////////////////////////////////////
+ 
+router.get('/api/articles', (req, res) => {
+	model.getAll('articles', (arg) => {
+		res.send(arg)
+	})
+})
+.get('/api/articles/:id', (req, res) => {
+	model.getOne('articles', req.params.id, (arg) => {
+		res.send(arg)
+	})
+})
+.post('/api/articles', (req, res) => {
+	model.create('articles', req.body, (arg) => {
+		res.send(arg)
+	})
+})
+.put('/api/articles/:id', (req, res) => {
+	model.update('articles', req.params.id, req.body, (arg) => {
+		res.send(arg)
+	})
+})
+.patch('/api/articles/:id', (req, res) => {
+	model.update('articles', req.params.id, req.body, (arg) => {
+		res.send(arg)
+	})
+})
+.delete('/api/articles/:id', (req, res) => {
+	model.delete('articles', req.params.id, (arg) => {
+		res.send(arg)
+	})
+})
+
 module.exports = router
