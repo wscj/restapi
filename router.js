@@ -6,23 +6,24 @@ const model = require('./model')
 ////////////////////////////////////////////////////
  
 router.get('/api/books', (req, res) => {  //获取全部书本信息
-	model.getAll('books', function(arg) {
+	model.getAll('books', (arg) => {
 		res.send(arg)
 	})
 })
 .get('/api/books/:id', (req, res) => {    //获取单一本书信息
-	model.getOne('books', req.params.id, function(arg) {
+	model.getOne('books', req.params.id, (arg) => {
 		res.send(arg)
 	})
 })
 .post('/api/books', (req, res) => {       //创建一本书
-	model.create('books', req.body, function(arg) {
+	model.create('books', req.body, (arg) => {
 		res.send(arg)
 	})
 })
 .put('/api/books/:id', (req, res) => {    //修改一本书，参数需要提供全部字段
-	console.log(req)
-	res.send({ msg: 'Update a book with all fields' })
+	model.update('books', req.params.id, req.body, (arg) => {
+		res.send(arg)
+	})
 })
 .patch('/api/books/:id', (req, res) => {  //修改一本书，仅需提供修改字段
 	console.log(req)

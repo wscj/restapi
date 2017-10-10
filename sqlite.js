@@ -88,17 +88,28 @@ Sqlite.create = function(table, fields, callback) {
 	let sql1 = `insert into ${table} (`
 	let sql2 = `) values (`
 
-	Object.keys(fields).forEach(function(key) {
+	Object.keys(fields).forEach((key) => {
 		sql1 += (key + ',')
 		sql2 += `'${fields[key]}',`
 	})
 
 	const sql = sql1.substr(0, sql1.length - 1) + sql2.substr(0, sql2.length - 1) + ')'
 
-	db.run(sql, function(err) {
+	db.run(sql, function(err) { //这里需要使用回调函数的this，不能使用es6的箭头函数
 		err ? console.error(err) : Sqlite.getOne(table, this.lastID, callback)
 	})
 
+}
+
+Sqlite.update = function(table, id, fields, callback) {
+	let sql = `update ${table} set `
+	Object.keys(fields).forEach((key) => {
+		sql += `${key}='${fields[key]}',`
+	})
+	sql = sql.substr(0, sql.length - 1) + ` where rowid=${id}`
+	db.run(sql, (err) => {
+		err ? console.error(err) : Sqlite.getOne(table, id, callback)
+	})
 }
 
 module.exports = Sqlite
