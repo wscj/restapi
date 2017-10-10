@@ -18,4 +18,16 @@ model.update = (table, id, fields, callback) => {
 	db.update(table, id, fields, callback)
 }
 
+/**
+ * 删除数据
+ *
+ * |错误码|意义|
+ * |--|--|
+ * |0|成功|
+ * |1|不存在被删除的数据|
+ */
+model.delete = (table, id, callback) => {
+	db.delete(table, id, callback)
+}
+
 module.exports = model

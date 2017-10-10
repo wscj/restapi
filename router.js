@@ -31,8 +31,9 @@ router.get('/api/books', (req, res) => {  //获取全部书本信息
 	})
 })
 .delete('/api/books/:id', (req, res) => { //删除一本书
-	console.log(req)
-	res.send({ msg: 'Delete a book' })
+	model.delete('books', req.params.id, (arg) => {
+		res.send(arg)
+	})
 })
 
 module.exports = router

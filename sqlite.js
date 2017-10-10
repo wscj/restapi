@@ -112,4 +112,19 @@ Sqlite.update = (table, id, fields, callback) => {
 	})
 }
 
+Sqlite.delete = (table, id, callback) => {
+	const sql = `delete from ${table} where rowid=${id}`
+	db.run(sql, function(err) {
+		if (err) {
+			console.error(err)
+		}
+		else if (this.changes === 0) {
+			callback({ error: 1 })
+		}
+		else {
+			callback({ error: 0 })
+		}
+	})
+}
+
 module.exports = Sqlite
