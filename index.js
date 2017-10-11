@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const router = require('./router');
 
 //设置静态文件路径
-app.use(express.static('assets'));
+app.use(express.static('.'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(router);
