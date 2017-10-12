@@ -2,8 +2,8 @@ const model = {}
 //这里可以是其他的数据库
 const db = require('./sqlite')
 
-model.getAll = (table, callback) => {
-	db.getAll(table, callback)
+model.getAll = (table, filter, callback) => {
+	db.getAll(table, filter, callback)
 }
 
 model.getOne = (table, id, callback) => {

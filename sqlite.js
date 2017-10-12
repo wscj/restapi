@@ -74,9 +74,49 @@ if (!isDbExists) {
 	}(sqls));
 }
 
-Sqlite.getAll = (table, callback) => {
+Sqlite.getAll = (table, filter, callback) => {
 
-	const sql = `select rowid, * from ${table}`
+	let condition = ''
+	let where = ''
+
+	// 过滤条件
+	if (filter) {
+		//排序
+		if (filter.sortby) {
+			condition += ` order by ${filter.sortby}`
+			delete filter.sortby
+			if (filter.order) {
+				condition += ` ${filter.order}`
+				delete filter.order
+			}
+		}
+		//分页
+		if (filter.page && filter.per_page) {
+			condition += ` limit ${filter.page} offset ${(filter.page - 1) * filter.per_page}`
+			delete filter.page
+			delete filter.per_page
+		}
+		else {
+			//查询记录数量
+			if (filter.limit) {
+				condition += ` limit ${filter.limit}`
+				delete filter.limit
+			}
+			//查询记录起始位置
+			if (filter.offset) {
+				condition += ` offset ${filter.offset}`
+				delete filter.offset
+			}
+		}
+		Object.keys(filter).forEach(key => {
+			where += ` and ${key}='${filter[key]}'`
+		})
+		if (where.length) {
+			where = ` where` + where.substr(4)
+		}
+	}
+	const sql = `select rowid, * from ${table} ${where} ${condition}`
+
 	db.all(sql, (err, rows) => {
 		err ? console.error(err) : callback({ error: 0, list: rows })
 	})

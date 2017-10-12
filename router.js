@@ -6,7 +6,7 @@ const model = require('./model')
 ////////////////////////////////////////////////////
  
 router.get('/api/books', (req, res) => {  //获取全部书本信息
-	model.getAll('books', (arg) => {
+	model.getAll('books', req.query, (arg) => {
 		res.send(arg)
 	})
 })
