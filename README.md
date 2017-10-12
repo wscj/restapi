@@ -2,6 +2,8 @@
 
 > 本项目为纯后端，可随意搭配前端
 
+[查看接口文档](https://github.com/wscj/restapi/wiki)
+
 ### 版本
 
 |Node.js|Express.js|
