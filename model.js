@@ -30,4 +30,8 @@ model.delete = (table, id, callback) => {
 	db.delete(table, id, callback)
 }
 
+model.getSubResource = (table, foreignKey, callback) => {
+	db.getSubResource(table, foreignKey, callback)
+}
+
 module.exports = model

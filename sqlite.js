@@ -180,4 +180,13 @@ Sqlite.delete = (table, id, callback) => {
 
 }
 
+Sqlite.getSubResource = (table, foreignKey, callback) => {
+
+	const sql = `select rowid, * from ${table} where pid=${foreignKey}`
+	db.all(sql, (err, rows) => {
+		err ? console.error(err) : callback({ error: 0, list: rows })
+	})
+
+}
+
 module.exports = Sqlite

@@ -41,7 +41,7 @@ router.get('/api/books', (req, res) => {  //获取全部书本信息
 ////////////////////////////////////////////////////
  
 router.get('/api/articles', (req, res) => {
-	model.getAll('articles', (arg) => {
+	model.getAll('articles', req.query, (arg) => {
 		res.send(arg)
 	})
 })
@@ -67,6 +67,16 @@ router.get('/api/articles', (req, res) => {
 })
 .delete('/api/articles/:id', (req, res) => {
 	model.delete('articles', req.params.id, (arg) => {
+		res.send(arg)
+	})
+})
+
+////////////////////////////////////////////////////
+/// 书与文章的父子资源
+////////////////////////////////////////////////////
+
+router.get('/api/books/:book_id/articles', (req, res) => {
+	model.getSubResource('articles', req.params.book_id, (arg) => {
 		res.send(arg)
 	})
 })
