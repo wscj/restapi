@@ -13,6 +13,9 @@
 npm i
 
 # 运行
+npm run start
+
+# 开发模式运行
 npm run dev
 ```
 
