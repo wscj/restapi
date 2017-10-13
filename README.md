@@ -14,13 +14,13 @@
 
 ```bash
 # 安装依赖
-npm i
+$ npm i
 
 # 运行
-npm run start
+$ npm run start
 
 # 开发模式运行
-npm run dev
+$ npm run dev
 ```
 
 ### 搭配前端
