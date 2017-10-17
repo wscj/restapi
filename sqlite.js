@@ -118,16 +118,25 @@ Sqlite.getAll = (table, filter, callback) => {
 	const sql = `select rowid, * from ${table} ${where} ${condition}`
 
 	db.all(sql, (err, rows) => {
-		err ? console.error(err) : callback({ error: 0, list: rows })
+		err ? console.error(err) : callback({ error: 200, list: rows })
 	})
 
 }
 
-Sqlite.getOne = (table, id, callback) => {
+Sqlite.getOne = (table, id, callback, code) => {
 
 	const sql = `select rowid, * from ${table} where rowid=${id}`
 	db.get(sql, (err, row) => {
-		err ? console.error(err) : callback({ error: 0, list: [row] })
+		err ? console.error(err) : callback({ error: code || 200, list: [row] })
+		if (err) {
+			console.error(err)
+		}
+		else if (row) {
+			callback({ error: code || 200, list: [row] })
+		}
+		else {
+			callback({ error: 404 })
+		}
 	})
 
 }
@@ -145,7 +154,7 @@ Sqlite.create = (table, fields, callback) => {
 	const sql = sql1.substr(0, sql1.length - 1) + sql2.substr(0, sql2.length - 1) + ')'
 
 	db.run(sql, function(err) { //这里需要使用回调函数的this，不能使用es6的箭头函数
-		err ? console.error(err) : Sqlite.getOne(table, this.lastID, callback)
+		err ? console.error(err) : Sqlite.getOne(table, this.lastID, callback, 201)
 	})
 
 }
@@ -157,8 +166,16 @@ Sqlite.update = (table, id, fields, callback) => {
 		sql += `${key}='${fields[key]}',`
 	})
 	sql = sql.substr(0, sql.length - 1) + ` where rowid=${id}`
-	db.run(sql, (err) => {
-		err ? console.error(err) : Sqlite.getOne(table, id, callback)
+	db.run(sql, function(err) {
+		if (err) {
+			console.error(err)
+		}
+		else if (this.changes === 0) {
+			callback({ error: 404 })
+		}
+		else {
+			Sqlite.getOne(table, id, callback, 201)
+		}
 	})
 
 }
@@ -171,10 +188,10 @@ Sqlite.delete = (table, id, callback) => {
 			console.error(err)
 		}
 		else if (this.changes === 0) {
-			callback({ error: 1 })
+			callback({ error: 404 })
 		}
 		else {
-			callback({ error: 0 })
+			callback({ error: 204 })
 		}
 	})
 
