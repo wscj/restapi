@@ -1,19 +1,5 @@
 const router = require('express').Router()
 const model = require('./model')
-// const msg = {
-// 	200: 'OK',
-// 	201: 'Created',
-// 	202: 'Accepted',
-// 	204: 'No Content',
-// 	400: 'Bad Request',
-// 	401: 'Unanthorized',
-// 	403: 'Forbidden',
-// 	404: 'Not Found',
-// 	406: 'Not Acceptable',
-// 	410: 'Gone',
-// 	422: 'Unaprocessable Entity',
-// 	500: 'Internal Server Error'
-// }
 
 const send = (res, arg) => {
 	const code = arg.error

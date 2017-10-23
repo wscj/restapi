@@ -74,7 +74,7 @@ if (!isDbExists) {
 	}(sqls));
 }
 
-Sqlite.getAll = (table, filter, callback) => {
+Sqlite.getAll = (resource, filter, callback) => {
 
 	let condition = ''
 	let where = ''
@@ -115,7 +115,7 @@ Sqlite.getAll = (table, filter, callback) => {
 			where = ` where` + where.substr(4)
 		}
 	}
-	const sql = `select rowid, * from ${table} ${where} ${condition}`
+	const sql = `select rowid, * from ${resource} ${where} ${condition}`
 
 	db.all(sql, (err, rows) => {
 		err ? console.error(err) : callback({ error: 200, list: rows })
@@ -123,11 +123,10 @@ Sqlite.getAll = (table, filter, callback) => {
 
 }
 
-Sqlite.getOne = (table, id, callback, code) => {
+Sqlite.getOne = (resource, id, callback, code) => {
 
-	const sql = `select rowid, * from ${table} where rowid=${id}`
+	const sql = `select rowid, * from ${resource} where rowid=${id}`
 	db.get(sql, (err, row) => {
-		err ? console.error(err) : callback({ error: code || 200, list: [row] })
 		if (err) {
 			console.error(err)
 		}
@@ -141,9 +140,9 @@ Sqlite.getOne = (table, id, callback, code) => {
 
 }
 
-Sqlite.create = (table, fields, callback) => {
+Sqlite.create = (resource, fields, callback) => {
 
-	let sql1 = `insert into ${table} (`
+	let sql1 = `insert into ${resource} (`
 	let sql2 = `) values (`
 
 	Object.keys(fields).forEach((key) => {
@@ -154,14 +153,14 @@ Sqlite.create = (table, fields, callback) => {
 	const sql = sql1.substr(0, sql1.length - 1) + sql2.substr(0, sql2.length - 1) + ')'
 
 	db.run(sql, function(err) { //这里需要使用回调函数的this，不能使用es6的箭头函数
-		err ? console.error(err) : Sqlite.getOne(table, this.lastID, callback, 201)
+		err ? console.error(err) : Sqlite.getOne(resource, this.lastID, callback, 201)
 	})
 
 }
 
-Sqlite.update = (table, id, fields, callback) => {
+Sqlite.update = (resource, id, fields, callback) => {
 
-	let sql = `update ${table} set `
+	let sql = `update ${resource} set `
 	Object.keys(fields).forEach((key) => {
 		sql += `${key}='${fields[key]}',`
 	})
@@ -174,15 +173,15 @@ Sqlite.update = (table, id, fields, callback) => {
 			callback({ error: 404 })
 		}
 		else {
-			Sqlite.getOne(table, id, callback, 201)
+			Sqlite.getOne(resource, id, callback, 201)
 		}
 	})
 
 }
 
-Sqlite.delete = (table, id, callback) => {
+Sqlite.delete = (resource, id, callback) => {
 
-	const sql = `delete from ${table} where rowid=${id}`
+	const sql = `delete from ${resource} where rowid=${id}`
 	db.run(sql, function(err) {
 		if (err) {
 			console.error(err)
@@ -197,9 +196,9 @@ Sqlite.delete = (table, id, callback) => {
 
 }
 
-Sqlite.getSubResource = (table, foreignKey, callback) => {
+Sqlite.getSubResource = (resource, foreignKey, callback) => {
 
-	const sql = `select rowid, * from ${table} where pid=${foreignKey}`
+	const sql = `select rowid, * from ${resource} where pid=${foreignKey}`
 	db.all(sql, (err, rows) => {
 		err ? console.error(err) : callback({ error: 0, list: rows })
 	})

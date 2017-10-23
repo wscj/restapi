@@ -2,28 +2,28 @@ const model = {}
 //这里可以是其他的数据库
 const db = require('./sqlite')
 
-model.getAll = (table, filter, callback) => {
-	db.getAll(table, filter, callback)
+model.getAll = (resource, filter, callback) => {
+	db.getAll(resource, filter, callback)
 }
 
-model.getOne = (table, id, callback) => {
-	db.getOne(table, id, callback)
+model.getOne = (resource, id, callback) => {
+	db.getOne(resource, id, callback)
 }
 
-model.create = (table, fields, callback) => {
-	db.create(table, fields, callback)
+model.create = (resource, fields, callback) => {
+	db.create(resource, fields, callback)
 }
 
-model.update = (table, id, fields, callback) => {
-	db.update(table, id, fields, callback)
+model.update = (resource, id, fields, callback) => {
+	db.update(resource, id, fields, callback)
 }
 
-model.delete = (table, id, callback) => {
-	db.delete(table, id, callback)
+model.delete = (resource, id, callback) => {
+	db.delete(resource, id, callback)
 }
 
-model.getSubResource = (table, foreignKey, callback) => {
-	db.getSubResource(table, foreignKey, callback)
+model.getSubResource = (resource, foreignKey, callback) => {
+	db.getSubResource(resource, foreignKey, callback)
 }
 
 module.exports = model
