@@ -37,4 +37,4 @@ front-end-project
 
 使用`postman`发送`POST`请求示例
 
-![](https://wscj.github.io/files/post.png)
+![](https://github.com/wscj/static-resource/blob/master/images/post.png)
